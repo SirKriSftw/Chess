@@ -6,7 +6,7 @@ class Piece
     @pos = pos
   end
   def to_s
-    "#{@color} #{@type}"
+    "#{@color} #{@type} at #{@pos}"
   end
 end
 
