@@ -1,8 +1,9 @@
 class Piece
-  def initialize(color, type)
+  def initialize(color, pos = [0,0], type)
     color = color.downcase
     color == "white" || color == "black" ? @color = color : color = "NA"
     @type = type
+    @pos = pos
   end
   def to_s
     "#{@color} #{@type}"
@@ -10,37 +11,37 @@ class Piece
 end
 
 class Pawn < Piece
-  def initialize(color)
-    super(color, "pawn")
+  def initialize(color, pos)
+    super(color, pos, "pawn")
   end
 end
 
 class Rook < Piece
   def initialize(color)
-    super(color, "rook")
+    super(color, pos, "rook")
   end
 end
 
 class Knight < Piece
   def initialize(color)
-    super(color, "knight")
+    super(color, pos, "knight")
   end
 end
 
 class Bishop < Piece
   def initialize(color)
-    super(color, "bishop")
+    super(color, pos, "bishop")
   end
 end
 
 class Queen < Piece
   def initialize(color)
-    super(color, "queen")
+    super(color, pos, "queen")
   end
 end
 
 class King < Piece
   def initialize(color)
-    super(color, "king")
+    super(color, pos, "king")
   end
 end
