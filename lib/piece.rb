@@ -1,10 +1,11 @@
 class Piece
-  def initialize(color, pos = [0,0], type)
+  def initialize(color, icon, pos = [0,0], type)
     color = color.downcase
     color == "white" || color == "black" ? @color = color : color = "NA"
-    @type = type
+    @icon = icon
     @rank = pos[0]
     @file = pos[1]
+    @type = type
   end
   def to_s
     "#{@color} #{@type} at #{(@rank.ord + "a".ord).chr}#{@file}"
@@ -13,36 +14,36 @@ end
 
 class Pawn < Piece
   def initialize(color, pos)
-    super(color, pos, "pawn")
+    super(color, "i", pos, "pawn")
   end
 end
 
 class Rook < Piece
   def initialize(color)
-    super(color, pos, "rook")
+    super(color, "r", pos, "rook")
   end
 end
 
 class Knight < Piece
   def initialize(color)
-    super(color, pos, "knight")
+    super(color, "k", pos, "knight")
   end
 end
 
 class Bishop < Piece
   def initialize(color)
-    super(color, pos, "bishop")
+    super(color, "b", pos, "bishop")
   end
 end
 
 class Queen < Piece
   def initialize(color)
-    super(color, pos, "queen")
+    super(color, "q", pos, "queen")
   end
 end
 
 class King < Piece
   def initialize(color)
-    super(color, pos, "king")
+    super(color, "K", pos, "king")
   end
 end
