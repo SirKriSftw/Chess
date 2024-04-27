@@ -8,6 +8,10 @@ class Board
     @length = length
     @width = width
     @players = [Player.new("white"), Player.new("black")]
+    @squares = []
+    @length.times do
+      @squares.push(Array.new(@width))
+    end
   end
 
   def print_board
