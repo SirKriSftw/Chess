@@ -3,10 +3,11 @@ class Piece
     color = color.downcase
     color == "white" || color == "black" ? @color = color : color = "NA"
     @type = type
-    @pos = pos
+    @rank = pos[0]
+    @file = pos[1]
   end
   def to_s
-    "#{@color} #{@type} at #{@pos}"
+    "#{@color} #{@type} at #{(@rank.ord + "a".ord).chr}#{@file}"
   end
 end
 
