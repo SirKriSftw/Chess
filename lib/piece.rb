@@ -1,4 +1,6 @@
 class Piece
+  attr_accessor :icon
+
   def initialize(color, icon, pos = [0,0], type)
     color = color.downcase
     color == "white" || color == "black" ? @color = color : color = "NA"
