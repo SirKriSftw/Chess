@@ -28,10 +28,10 @@ class Pawn < Piece
       
     if(@rank + direction < @@board.length)
       if @@board[@rank + direction][@file] == nil then moves.push([@rank + direction, @file]) end
-      if(@file + 1 <= @@board[0].length && @@board[@rank + direction][@file + 1] != nil)
+      if(@file + 1 < @@board[0].width && @@board[@rank + direction][@file + 1] != nil)
         if @@board[@rank + direction][@file + 1].color != @color then moves.push([@rank + direction, @file + 1]) end
       end
-      if(@file - 1 <= @@board[0].length && @@board[@rank + direction][@file - 1] != nil)
+      if(@file - 1 < @@board[0].width && @@board[@rank + direction][@file - 1] != nil)
         if @@board[@rank + direction][@file - 1].color != @color then moves.push([@rank + direction, @file - 1]) end
       end
     end
