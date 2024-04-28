@@ -26,7 +26,7 @@ class Pawn < Piece
     if @color == "white" && @rank == 1 && @@board[2][@file] == nil then moves.push([@rank + 2, @file]) end
     if @color == "black" && @rank == 6 && @@board[5][@file] == nil then moves.push([@rank - 2, @file]) end
       
-    if(@rank + direction <= @@board.length)
+    if(@rank + direction < @@board.length)
       if @@board[@rank + direction][@file] == nil then moves.push([@rank + direction, @file]) end
       if(@file + 1 <= @@board[0].length && @@board[@rank + direction][@file + 1] != nil)
         if @@board[@rank + direction][@file + 1].color != @color then moves.push([@rank + direction, @file + 1]) end
@@ -42,6 +42,11 @@ end
 class Rook < Piece
   def initialize(color, pos, board)
     super(color, "r", pos, board, "rook")
+  end
+
+  def get_moves
+    current = 1
+    while()
   end
 end
 
