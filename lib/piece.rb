@@ -26,12 +26,12 @@ class Pawn < Piece
     if @color == "white" && @rank == 1 && @@board[2][@file] == nil then moves.push([@rank + 2, @file]) end
     if @color == "black" && @rank == 6 && @@board[5][@file] == nil then moves.push([@rank - 2, @file]) end
       
-    if(@rank + direction < @@board.length)
+    if(@rank + direction < @@board.length && @rank + direction >= 0)
       if @@board[@rank + direction][@file] == nil then moves.push([@rank + direction, @file]) end
-      if(@file + 1 < @@board[0].width && @@board[@rank + direction][@file + 1] != nil)
+      if(@file + 1 < @@board[0].length && @@board[@rank + direction][@file + 1] != nil)
         if @@board[@rank + direction][@file + 1].color != @color then moves.push([@rank + direction, @file + 1]) end
       end
-      if(@file - 1 < @@board[0].width && @@board[@rank + direction][@file - 1] != nil)
+      if(@file - 1 >= 0 && @@board[@rank + direction][@file - 1] != nil)
         if @@board[@rank + direction][@file - 1].color != @color then moves.push([@rank + direction, @file - 1]) end
       end
     end
@@ -46,7 +46,54 @@ class Rook < Piece
 
   def get_moves
     current = 1
-    while()
+    moves = []
+    # Check down 
+    while(@rank + current < @@board.length) do
+      if(@@board[@rank + current][@file] == nil) then moves.push([@rank + current, @file]) else break end
+      current += 1
+    end
+    if(@rank + current < @@board.length)
+      if(@@board[@rank + current][@file].color != @color)
+        moves.push([@rank + current, @file])
+      end
+    end
+
+    # Check up
+    current = 1
+    while(@rank - current >= 0) do
+      if(@@board[@rank - current][@file] == nil) then moves.push([@rank - current, @file]) else break end      
+      current += 1
+    end
+    if(@rank - current > 0)
+      if(@@board[@rank - current][@file].color != @color)
+        moves.push([@rank - current, @file])
+      end
+    end
+
+    # Check right
+    current = 1
+    while(@file + current < @@board[0].length) do
+      if(@@board[@rank][@file + current] == nil) then moves.push([@rank, @file + current]) else break end      
+      current += 1
+    end
+    if(@file + current < @@board[0].length)
+      if(@@board[@rank][@file + current].color != @color)
+        moves.push([@rank, @file + current])
+      end
+    end
+
+    # Check left
+    current = 1
+    while(@file - current >= 0) do
+      if(@@board[@rank][@file - current] == nil) then moves.push([@rank, @file - current]) else break end      
+      current += 1
+    end
+    if(@file - current >= 0)
+      if(@@board[@rank][@file - current].color != @color)
+        moves.push([@rank, @file - current])
+      end
+    end
+    moves
   end
 end
 
