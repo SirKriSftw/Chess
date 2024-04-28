@@ -42,6 +42,7 @@ class Board
     @squares[7][5] = Bishop.new("black", [7,5], @squares)
     @squares[7][6] = Knight.new("black", [7,6], @squares)
     @squares[7][7] = Rook.new("black", [7,7], @squares)
+
   end
 
   def print_board
