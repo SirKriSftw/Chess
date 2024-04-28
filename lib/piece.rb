@@ -21,7 +21,7 @@ class Piece
       if(@@board[@rank - current][@file] == nil) then moves.push([@rank - current, @file]) else break end      
       current += 1
     end
-    if(@rank - current > 0)
+    if(@rank - current >= 0)
       if(@@board[@rank - current][@file].color != @color)
         moves.push([@rank - current, @file])
       end
@@ -69,6 +69,21 @@ class Piece
     if(@file - current >= 0)
       if(@@board[@rank][@file - current].color != @color)
         moves.push([@rank, @file - current])
+      end
+    end
+    moves
+  end
+
+  def check_up_right
+    current = 1
+    moves = []
+    while(@rank - current >= 0 && @file + current < @@board[0].length) do
+      if(@@board[@rank - current][@file + current] == nil) then moves.push([@rank - current, @file + current]) else break end      
+      current += 1
+    end
+    if(@rank - current >= 0)
+      if(@@board[@rank - current][@file + current].color != @color)
+        moves.push([@rank - current, @file + current])
       end
     end
     moves
@@ -136,6 +151,10 @@ end
 class Bishop < Piece
   def initialize(color, pos, board)
     super(color, "b", pos, board, "bishop")
+  end
+
+  def get_moves
+    check_up_right
   end
 end
 
