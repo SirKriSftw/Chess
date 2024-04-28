@@ -81,9 +81,54 @@ class Piece
       if(@@board[@rank - current][@file + current] == nil) then moves.push([@rank - current, @file + current]) else break end      
       current += 1
     end
-    if(@rank - current >= 0)
+    if(@rank - current >= 0 && @file + current < @@board[0].length)
       if(@@board[@rank - current][@file + current].color != @color)
         moves.push([@rank - current, @file + current])
+      end
+    end
+    moves
+  end
+
+  def check_up_left
+    current = 1
+    moves = []
+    while(@rank - current >= 0 && @file - current >= 0) do
+      if(@@board[@rank - current][@file - current] == nil) then moves.push([@rank - current, @file - current]) else break end      
+      current += 1
+    end
+    if(@rank - current >= 0 && @file - current >= 0)
+      if(@@board[@rank - current][@file - current].color != @color)
+        moves.push([@rank - current, @file - current])
+      end
+    end
+    moves
+  end
+
+  def check_down_right
+    current = 1
+    moves = []
+    while(@rank + current < @@board.length && @file + current < @@board.length) do
+      if(@@board[@rank + current][@file + current] == nil) then moves.push([@rank + current, @file + current]) else break end      
+      current += 1
+    end
+    if(@rank + current < @@board.length && @file + current < @@board.length)
+      if(@@board[@rank + current][@file + current].color != @color)
+        moves.push([@rank + current, @file + current])
+      end
+    end
+    moves
+  end
+
+  def check_down_left
+    current = 1
+    moves = []
+    while(@rank + current < @@board.length && @file - current >= 0) do
+      if(@@board[@rank + current][@file - current] == nil) then moves.push([@rank + current, @file - current]) else break end      
+      current += 1
+    end
+    if(@rank + current < @@board.length && @file - current >= 0)
+      if(@@board[@rank + current][@file - current].color != @color)
+        moves.push([@rank + current, @file - current])
       end
     end
     moves
@@ -120,25 +165,7 @@ class Rook < Piece
   end
 
   def get_moves
-    current = 1
-    moves = []
-    # Check up
-    up = check_up
-    if up != nil then moves = moves + up end
-
-    # Check down 
-    down = check_down
-    if down != nil then moves = moves + down end
-
-    # Check right
-    right = check_right
-    if right != nil then moves = moves + right end
-
-    # Check left
-    left = check_left
-    if left != nil then moves = moves + left end
-
-    moves
+    check_up + check_down + check_left + check_right
   end
 end
 
@@ -154,13 +181,17 @@ class Bishop < Piece
   end
 
   def get_moves
-    check_up_right
+    check_up_right + check_up_left + check_down_right + check_down_left    
   end
 end
 
 class Queen < Piece
   def initialize(color, pos, board)
     super(color, "q", pos, board, "queen")
+  end
+
+  def get_moves
+    check_up + check_down + check_left + check_right + check_up_right + check_up_left + check_down_right + check_down_left
   end
 end
 
