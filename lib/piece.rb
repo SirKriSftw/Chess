@@ -4,7 +4,7 @@ class Piece
   def initialize(color, icon, pos = [0,0], board, type)
     color = color.downcase
     color == "white" || color == "black" ? @color = color : @color = "NA"
-    color == "white" ? @icon = "\e[37m\e[1m#{icon}\e[22m" : @icon = "\e[30m#{icon}"
+    @color == "white" ? @icon = "\e[37m\e[1m#{icon}\e[22m" : @icon = "\e[30m#{icon}"
     @rank = pos[0]
     @file = pos[1]
     @type = type
@@ -22,9 +22,10 @@ class Pawn < Piece
 
   def get_moves
     moves = []
-    if color == "white" then direction = 1 else direction = -1 end
-    if color == "white" && @rank == 1 && @@board[2, @file] == nil then moves.push([@rank + 2, @file]) end
-    if color == "black" && @rank == 6 && @@board[5, @file] == nil then moves.push([@rank - 2, @file]) end
+    if @color == "white" then direction = 1 else direction = -1 end
+    if @color == "white" && @rank == 1 && @@board[2][@file] == nil then moves.push([@rank + 2, @file]) end
+    if @color == "black" && @rank == 6 && @@board[5][@file] == nil then moves.push([@rank - 2, @file]) end
+      
     if(@rank + direction <= @@board.length)
       if @@board[@rank + direction][@file] == nil then moves.push([@rank + direction, @file]) end
       if(@file + 1 <= @@board[0].length && @@board[@rank + direction][@file + 1] != nil)
