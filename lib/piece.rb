@@ -14,6 +14,10 @@ class Piece
     "#{@color} #{@type} at #{(@rank.ord + "a".ord).chr}#{@file}"
   end
 
+  def has_moves?
+    get_moves != []
+  end
+
   def check_square(rank, file)
     moves = []
     square = @@board[rank][file]
