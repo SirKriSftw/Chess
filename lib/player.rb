@@ -1,4 +1,3 @@
-require_relative "piece"
 class Player
 
   attr_accessor :pieces, :color
@@ -17,6 +16,22 @@ class Player
         end
       end
     end
+  end
+
+  def index_to_notation(file, rank)
+    #[4, 1] => b3
+    "#{(rank + "a".ord).chr}#{file + 1}"
+  end
+
+  def notation_to_index(str)
+    # a1 => [0, 0] b3 => [4, 1]
+    if(str.length > 2)
+      return "ERR"
+    end
+    arr = str.split("")
+    rank = str[0].ord - "a".ord
+    file = str[1].to_i - 1
+    return [file, rank]
   end
 
   def movable_pieces

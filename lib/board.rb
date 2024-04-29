@@ -47,8 +47,9 @@ class Board
     @players[1].get_pieces(@squares)
   end
 
-  def take_turn
-    @players[0].take_turn  
+  def play
+    @players[0].take_turn
+    @players[1].take_turn   
   end
 
   def print_board
