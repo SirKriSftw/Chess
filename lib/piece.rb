@@ -14,17 +14,27 @@ class Piece
     "#{@color} #{@type} at #{(@rank.ord + "a".ord).chr}#{@file}"
   end
 
+  def check_square(rank, file)
+    moves = []
+    square = @@board[rank][file]
+    if(@type == "king" && square == nil)
+      moves.push([rank, file])
+    elsif(square.color != @color)
+      moves.push([rank, file])
+    end
+    moves
+  end
+
   def check_up
     current = 1
     moves = []
-    while(@rank - current >= 0) do
+    while(@rank - current > 0 && @type != "king") do
       if(@@board[@rank - current][@file] == nil) then moves.push([@rank - current, @file]) else break end      
       current += 1
     end
-    if(@rank - current >= 0)
-      if(@@board[@rank - current][@file].color != @color)
-        moves.push([@rank - current, @file])
-      end
+
+    if(@rank - current > 0)
+      moves = moves + check_square(@rank - current, @file)
     end
     moves
   end
@@ -32,14 +42,13 @@ class Piece
   def check_down
     current = 1
     moves = []
-    while(@rank + current < @@board.length) do
+    while(@rank + current < @@board.length && @type != "king") do
       if(@@board[@rank + current][@file] == nil) then moves.push([@rank + current, @file]) else break end
       current += 1
     end
+   
     if(@rank + current < @@board.length)
-      if(@@board[@rank + current][@file].color != @color)
-        moves.push([@rank + current, @file])
-      end
+      moves = moves + check_square(@rank + current, @file)
     end
     moves
   end
@@ -47,14 +56,13 @@ class Piece
   def check_right
     current = 1
     moves = []
-    while(@file + current < @@board[0].length) do
+    while(@file + current < @@board[0].length && @type != "king") do
       if(@@board[@rank][@file + current] == nil) then moves.push([@rank, @file + current]) else break end      
       current += 1
     end
+
     if(@file + current < @@board[0].length)
-      if(@@board[@rank][@file + current].color != @color)
-        moves.push([@rank, @file + current])
-      end
+      moves = moves + check_square(@rank, @file + current)
     end
     moves
   end
@@ -62,14 +70,13 @@ class Piece
   def check_left
     current = 1
     moves = []
-    while(@file - current >= 0) do
+    while(@file - current > 0 && @type != "king") do
       if(@@board[@rank][@file - current] == nil) then moves.push([@rank, @file - current]) else break end      
       current += 1
     end
-    if(@file - current >= 0)
-      if(@@board[@rank][@file - current].color != @color)
-        moves.push([@rank, @file - current])
-      end
+
+    if(@file - current > 0)
+      moves = moves + check_square(@rank, @file - current)
     end
     moves
   end
@@ -77,14 +84,12 @@ class Piece
   def check_up_right
     current = 1
     moves = []
-    while(@rank - current >= 0 && @file + current < @@board[0].length) do
+    while(@rank - current > 0 && @file + current < @@board[0].length && @type != "king") do
       if(@@board[@rank - current][@file + current] == nil) then moves.push([@rank - current, @file + current]) else break end      
       current += 1
     end
-    if(@rank - current >= 0 && @file + current < @@board[0].length)
-      if(@@board[@rank - current][@file + current].color != @color)
-        moves.push([@rank - current, @file + current])
-      end
+    if(@rank - current > 0 && @file + current < @@board[0].length)
+      moves = moves + check_square(@rank - current, @file + current)
     end
     moves
   end
@@ -92,14 +97,12 @@ class Piece
   def check_up_left
     current = 1
     moves = []
-    while(@rank - current >= 0 && @file - current >= 0) do
+    while(@rank - current >= 0 && @file - current >= 0 && @type != "king") do
       if(@@board[@rank - current][@file - current] == nil) then moves.push([@rank - current, @file - current]) else break end      
       current += 1
     end
     if(@rank - current >= 0 && @file - current >= 0)
-      if(@@board[@rank - current][@file - current].color != @color)
-        moves.push([@rank - current, @file - current])
-      end
+      moves = moves + check_square(@rank - current, @file - current)
     end
     moves
   end
@@ -107,14 +110,12 @@ class Piece
   def check_down_right
     current = 1
     moves = []
-    while(@rank + current < @@board.length && @file + current < @@board.length) do
+    while(@rank + current < @@board.length && @file + current < @@board.length && @type != "king") do
       if(@@board[@rank + current][@file + current] == nil) then moves.push([@rank + current, @file + current]) else break end      
       current += 1
     end
     if(@rank + current < @@board.length && @file + current < @@board.length)
-      if(@@board[@rank + current][@file + current].color != @color)
-        moves.push([@rank + current, @file + current])
-      end
+      moves = moves + check_square(@rank + current, @file + current)
     end
     moves
   end
@@ -122,14 +123,12 @@ class Piece
   def check_down_left
     current = 1
     moves = []
-    while(@rank + current < @@board.length && @file - current >= 0) do
+    while(@rank + current < @@board.length && @file - current >= 0 && @type != "king") do
       if(@@board[@rank + current][@file - current] == nil) then moves.push([@rank + current, @file - current]) else break end      
       current += 1
     end
     if(@rank + current < @@board.length && @file - current >= 0)
-      if(@@board[@rank + current][@file - current].color != @color)
-        moves.push([@rank + current, @file - current])
-      end
+      moves = moves + check_square(@rank + current, @file - current)
     end
     moves
   end
@@ -219,7 +218,7 @@ class Queen < Piece
   end
 
   def get_moves
-    check_up + check_down + check_left + check_right + check_up_right + check_up_left + check_down_right + check_down_left
+    check_up + check_down + check_right + check_left + check_up_right + check_up_left + check_down_right + check_down_left
   end
 end
 
@@ -227,5 +226,9 @@ class King < Piece
   def initialize(color, pos, board)
     super(color, "K", pos, board, "king")
     color == "white" ? @icon = "\e[37m\e[1m\e[4m#{icon}\e[24m\e[22m" : @icon = "\e[30m\e[4m#{icon}\e[24m\e[22m"
+  end
+
+  def get_moves
+    check_up + check_down + check_right + check_left + check_up_right + check_up_left + check_down_right + check_down_left
   end
 end
