@@ -44,7 +44,11 @@ class Board
     @squares[7][7] = Rook.new("black", [7,7], @squares)
 
     @players[0].get_pieces(@squares)
-    @players[1].get_pieces(@squares)    
+    @players[1].get_pieces(@squares)
+  end
+
+  def take_turn
+    @players[0].take_turn  
   end
 
   def print_board
@@ -76,5 +80,6 @@ class Board
       print "  #{rank}  "
       rank = (rank.ord + 1).chr
     end
+    puts ""
   end
 end

@@ -1,3 +1,4 @@
+require_relative "piece"
 class Player
 
   attr_accessor :pieces, :color
@@ -18,7 +19,24 @@ class Player
     end
   end
 
-  def take_turn
-
+  def movable_pieces
+    pieces_to_move = []
+    @pieces.each do |piece|
+      if(piece.has_moves?)
+        pieces_to_move.push(piece)        
+      end
+    end
+    pieces_to_move
   end
+
+  def take_turn
+    counter = 1
+    options = movable_pieces
+    puts "Player #{@color}, what piece would you like to move?\n"
+    options.each_with_index do |piece, index|
+      puts "   (#{counter}) #{piece}"
+      counter += 1
+    end
+  end
+    
 end
