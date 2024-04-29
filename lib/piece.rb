@@ -173,6 +173,34 @@ class Knight < Piece
   def initialize(color, pos, board)
     super(color, "k", pos, board, "knight")
   end
+
+  def get_moves
+    moves = []
+    up = 2
+    across = 1
+
+    2.times do
+      if(@rank + up < @@board.length && @file + across < @@board[0].length)
+        if(@@board[@rank + up][@file + across] == nil || @@board[@rank + up][@file + across].color != @color) then moves.push([@rank + up, @file + across]) end
+      end
+
+      if(@rank + up < @@board.length && @file - across >= 0)
+        if(@@board[@rank + up][@file - across] == nil || @@board[@rank + up][@file - across].color != @color) then moves.push([@rank + up, @file - across]) end
+      end
+
+      if(@rank - up >= 0 && @file + across < @@board[0].length)
+        if(@@board[@rank - up][@file + across] == nil || @@board[@rank - up][@file + across].color != @color) then moves.push([@rank - up, @file + across]) end
+      end
+
+      if(@rank - up >= 0 && @file - across >= 0)
+        if(@@board[@rank - up][@file - across] == nil || @@board[@rank - up][@file - across].color != @color) then moves.push([@rank - up, @file - across]) end
+      end
+      up = 1
+      across = 2
+      end
+    moves
+  end
+  
 end
 
 class Bishop < Piece
