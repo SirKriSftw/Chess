@@ -42,25 +42,20 @@ class Board
     @squares[7][5] = Bishop.new("black", [7,5], @squares)
     @squares[7][6] = Knight.new("black", [7,6], @squares)
     @squares[7][7] = Rook.new("black", [7,7], @squares)
-
-    @squares.each do |row|
-      row.each do |piece|
-        if(piece != nil)
-          p "#{piece.to_s}: #{piece.has_moves?}"
-        end
-      end
-    end
-    
   end
 
   def print_board
     alternate = -1
+    rank = "a"
+    file = 1
     @squares.each do |row|
+      print "  "
       (row.length).times do
       if alternate == 1 then print "\e[43m     \e[0m" else print "\e[45m     \e[0m" end
       alternate *= -1
       end
       puts ""
+      print "#{file} "
       row.each do |piece|
         if(piece != nil)
           if alternate == 1 then print "\e[43m  #{piece.icon}  \e[0m" else print "\e[45m  #{piece.icon}  \e[0m" end
@@ -71,7 +66,12 @@ class Board
       end
       alternate *= -1
       puts ""
+      file = file + 1
     end
-
+    print "  "
+    @squares[0].each do
+      print "  #{rank}  "
+      rank = (rank.ord + 1).chr
+    end
   end
 end

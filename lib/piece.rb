@@ -11,7 +11,7 @@ class Piece
     @@board = board
   end
   def to_s
-    "#{@color} #{@type} at #{(@rank.ord + "a".ord).chr}#{@file}"
+    "#{@color} #{@type} at #{(@rank.ord + "a".ord).chr}#{@file + 1}"
   end
 
   def has_moves?
