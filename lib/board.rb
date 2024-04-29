@@ -43,14 +43,8 @@ class Board
     @squares[7][6] = Knight.new("black", [7,6], @squares)
     @squares[7][7] = Rook.new("black", [7,7], @squares)
 
-    @squares.each do |row|
-      row.each do |piece|
-        if(piece != nil)
-          p "#{piece.to_s}: #{piece.get_moves}"
-        end
-      end
-    end
-    
+    @players[0].get_pieces(@squares)
+    @players[1].get_pieces(@squares)    
   end
 
   def print_board
