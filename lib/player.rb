@@ -23,6 +23,10 @@ class Player
     end
   end
 
+  def in_check?
+    @king.attackers.length > 0
+  end
+
   def index_to_notation(file, rank)
     #[2, 1] => b3
     "#{(rank + "a".ord).chr}#{file + 1}"

@@ -12,6 +12,7 @@ class Game
         loop do            
             @curr_player = @board.players[@curr_player_index]
             if valid_turn then @board.print_board end
+            if @curr_player.in_check? then puts "\e[31mYour king is under attack\e[0m" end
             puts "Player #{@curr_player.color}, what piece would you like to move?\n"
             input = gets.chomp
             valid_turn = @curr_player.take_turn(input)
