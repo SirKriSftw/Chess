@@ -57,7 +57,7 @@ class Player
     puts "Moving #{piece} to #{new_pos}"
     start_square = [piece.file, piece.rank]
     end_piece = piece.move(new_pos)
-    if @king.attackers.length > 0
+    if in_check?
       puts "\e[31mIllegal move, puts King in check\e[0m"
       piece.set_pos(start_square)
       if end_piece != nil  

@@ -16,6 +16,7 @@ class Piece
   end
 
   def move(pos)
+    # Keep track of what WAS at the place I am going, in case I need to revert
     temp = @@board[pos[0]][pos[1]] 
     @@board[@file][@rank] = nil
     @@board[pos[0]][pos[1]] = self
@@ -29,6 +30,8 @@ class Piece
     rank = pos[1]
 
     @@board[file][rank] = self
+    @file = pos[0]
+    @rank = pos[1]
   end
 
   def Piece.clear_pos(pos)
