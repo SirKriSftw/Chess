@@ -5,7 +5,7 @@ class Board
   LENGTH = 8
   WIDTH = 8
 
-  attr_accessor :squares
+  attr_accessor :squares, :players
 
   def initialize(length = LENGTH, width = WIDTH)
     @length = length
@@ -45,11 +45,6 @@ class Board
 
     @players[0].get_pieces(@squares)
     @players[1].get_pieces(@squares)
-  end
-
-  def play
-    @players[0].take_turn
-    @players[1].take_turn   
   end
 
   def print_board

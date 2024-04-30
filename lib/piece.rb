@@ -1,5 +1,5 @@
 class Piece
-  attr_accessor :icon, :color, :board
+  attr_accessor :icon, :color, :board, :rank, :file
 
   def initialize(color, icon, pos = [0,0], board, type)
     color = color.downcase
