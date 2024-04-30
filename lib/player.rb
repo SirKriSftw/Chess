@@ -6,13 +6,18 @@ class Player
     color = color.downcase
     color == "white" || color == "black" ? @color = color : @color = "NA" 
     @pieces = []
+    # Keeps track of king, useful for when checking for check
+    @king = nil
   end
 
   def get_pieces(board)
     board.each do |file|
       file.each do |piece|
         if piece != nil  
-          if piece.color == @color then @pieces.push(piece) end
+          if piece.color == @color 
+            @pieces.push(piece)
+            if piece.type == "king" then @king = piece
+          end
         end
       end
     end

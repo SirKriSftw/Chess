@@ -10,14 +10,18 @@ class Piece
     @type = type
     @@board = board
   end
+
   def to_s
     "#{(@rank + "a".ord).chr}#{@file + 1} #{@type}"
   end
+
   def move(pos)
+    temp = @@board[pos[0]][pos[1]] 
     @@board[@file][@rank] = nil
     @@board[pos[0]][pos[1]] = self
     @file = pos[0]
     @rank = pos[1]
+    temp
   end
 
   def has_moves?
