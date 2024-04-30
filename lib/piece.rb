@@ -24,6 +24,20 @@ class Piece
     temp
   end
 
+  def set_pos(pos)
+    file = pos[0]
+    rank = pos[1]
+
+    @@board[file][rank] = self
+  end
+
+  def Piece.clear_pos(pos)
+    file = pos[0]
+    rank = pos[1]
+
+    @@board[file][rank] = nil
+  end
+
   def attackers
     attackers_list = []
     @@board.each do |file|

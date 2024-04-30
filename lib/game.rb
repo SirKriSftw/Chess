@@ -8,13 +8,16 @@ class Game
     end
 
     def play
-        loop do
+        valid_turn = true
+        loop do            
             @curr_player = @board.players[@curr_player_index]
-            @board.print_board
+            if valid_turn then @board.print_board end
             puts "Player #{@curr_player.color}, what piece would you like to move?\n"
             input = gets.chomp
-            @curr_player.take_turn(input)    
-            @curr_player_index = 1 - @curr_player_index
+            valid_turn = @curr_player.take_turn(input)
+            if valid_turn  
+                @curr_player_index = 1 - @curr_player_index 
+            end              
         end
     end
 end

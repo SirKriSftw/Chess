@@ -51,7 +51,19 @@ class Player
 
   def move_piece(piece, new_pos)
     puts "Moving #{piece} to #{new_pos}"
-    piece.move(new_pos)
+    start_square = [piece.file, piece.rank]
+    end_piece = piece.move(new_pos)
+    if @king.attackers.length > 0
+      puts "\e[31mIllegal move, puts King in check\e[0m"
+      piece.set_pos(start_square)
+      if end_piece != nil  
+        end_piece.set_pos([end_piece.file, end_piece.rank]) 
+      else
+        Piece.clear_pos(new_pos)
+      end
+      return false
+    end
+    return true
   end
 
   def take_turn(str)
@@ -88,7 +100,7 @@ class Player
       possible_end_pos = notation_to_index(move[1])
       if(piece_moves.include?(possible_end_pos))
         end_pos = possible_end_pos
-        move_piece(choice, end_pos)
+        return move_piece(choice, end_pos)
       else
         print "\e[31m#{move[0]} #{move[1]} is not a valid move\e[0m\nPlease select a new move: "
         str = gets.chomp
