@@ -13,6 +13,12 @@ class Piece
   def to_s
     "#{(@rank + "a".ord).chr}#{@file + 1} #{@type}"
   end
+  def move(pos)
+    @@board[@file][@rank] = nil
+    @@board[pos[0]][pos[1]] = self
+    @file = pos[0]
+    @rank = pos[1]
+  end
 
   def has_moves?
     get_moves != []

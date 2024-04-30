@@ -44,6 +44,11 @@ class Player
     pieces_to_move
   end
 
+  def move_piece(piece, new_pos)
+    puts "Moving #{piece} to #{new_pos}"
+    piece.move(new_pos)
+  end
+
   def take_turn(str)
     #a2 a5 => Moves a2 piece to a5 if possible otherwise return -1
     options = movable_pieces    
@@ -78,7 +83,7 @@ class Player
       possible_end_pos = notation_to_index(move[1])
       if(piece_moves.include?(possible_end_pos))
         end_pos = possible_end_pos
-        return end_pos
+        move_piece(choice, end_pos)
       else
         print "\e[31m#{move[0]} #{move[1]} is not a valid move\e[0m\nPlease select a new move: "
         str = gets.chomp
