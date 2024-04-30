@@ -16,7 +16,7 @@ class Player
         if piece != nil  
           if piece.color == @color 
             @pieces.push(piece)
-            if piece.type == "king" then @king = piece
+            if piece.type == "king" then @king = piece end
           end
         end
       end

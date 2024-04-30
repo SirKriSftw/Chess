@@ -1,5 +1,5 @@
 class Piece
-  attr_accessor :icon, :color, :board, :rank, :file
+  attr_accessor :icon, :color, :board, :rank, :file, :type
 
   def initialize(color, icon, pos = [0,0], board, type)
     color = color.downcase
@@ -22,6 +22,20 @@ class Piece
     @file = pos[0]
     @rank = pos[1]
     temp
+  end
+
+  def attackers
+    attackers_list = []
+    @@board.each do |file|
+      file.each do |piece|
+        if(piece != nil)
+          if(@color != piece.color)
+            if piece.get_moves.include?([@file, @rank]) then attackers_list.push(piece) end
+          end
+        end
+      end
+    end
+    attackers_list
   end
 
   def has_moves?
@@ -146,6 +160,7 @@ class Piece
     end
     moves
   end
+
 end
 
 class Pawn < Piece
