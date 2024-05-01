@@ -43,6 +43,14 @@ class Piece
 
   def attackers(my_file = @file, my_rank = @rank)
     attackers_list = []
+    temp = @@board[my_file][my_rank]
+    @@board[@file][@rank] = nil
+    @@board[my_file][my_rank] = self
+    temp_file = @file
+    temp_rank = @rank
+    @file = my_file
+    @rank = my_rank
+
     @@board.each do |file|
       file.each do |piece|
         if(piece != nil)
@@ -52,6 +60,11 @@ class Piece
         end
       end
     end
+
+    @@board[my_file][my_rank] = temp
+    @@board[temp_file][temp_rank] = self
+    @file = temp_file
+    @rank = temp_rank
     attackers_list
   end
 
@@ -280,8 +293,8 @@ class King < Piece
 
   def can_move?
     moves = get_moves
-    moves.each do |move|
-      if attackers(move[0], move[1]).length == 0 then return true end
+    moves.each do |new_pos|
+      if attackers(new_pos[0], new_pos[1]).length == 0 then return true end
     end
     return false
   end

@@ -29,6 +29,13 @@ class Player
 
   def checkmate?
     if @king.can_move? then return false end
+    attackers = @king.attackers
+    attackers.each do |attacker|
+      @pieces.each do |piece|
+        if piece.get_moves.include?([attacker.file, attacker.rank]) then return false end
+      end
+    end
+    return true
   end
 
   def index_to_notation(file, rank)
