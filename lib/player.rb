@@ -27,6 +27,10 @@ class Player
     @king.attackers.length > 0
   end
 
+  def checkmate?
+    
+  end
+
   def index_to_notation(file, rank)
     #[2, 1] => b3
     "#{(rank + "a".ord).chr}#{file + 1}"
