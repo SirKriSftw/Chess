@@ -29,7 +29,8 @@ class Player
 
   def checkmate?
     if @king.can_move? then return false end
-    unless can_capture? then return false end
+    if can_capture? then return false end
+    if can_block?  then return false end
     return true
   end
 
@@ -39,11 +40,69 @@ class Player
       @pieces.each do |piece|
         if piece.type != "king"
           if piece.get_moves.include?([attackers[0].file, attackers[0].rank]) 
-            return false 
+            return true 
           end
         end
       end
     end
+    return false
+  end
+
+  def can_block?
+    attackers = @king.attackers
+    if attackers.length == 1
+      # Cannot block a knight or pawn attack
+      if attackers[0].type == "knight" || attackers[0].type == "pawn" then return false end
+      # For all other pieces check for a block
+      to_block = find_attack_direction(attackers[0])
+      @pieces.each do |piece|
+        possible_moves = piece.get_moves
+        to_block.each do |pos|
+          if possible_moves.include?(pos) then return true end
+        end
+      end
+    end
+    return false
+  end
+
+  def find_attack_direction(attacker)
+    move_direction = []
+    if attacker.type == "rook" || attacker.type == "queen"
+      if(@king.file == attacker.file)
+        # King is on same row but to the right of attacker
+        if(@king.rank > attacker.rank)
+          move_direction = attacker.check_right
+        else
+          move_direction = attacker.check_left
+        end
+      elsif(@king.rank == attacker.rank)
+        # King is on same column but king is above attacker
+        if(@king.file > attacker.file)
+          move_direction = attacker.check_up
+        else
+          move_direction = attacker.check_down
+        end
+      end
+    end
+    if attacker.type == "bishop" || attacker.type == "queen"
+      # Check if king is above or below attacker
+      if(@king.file < attacker.file)
+        # King is above and to the right of attacker
+        if(@king.rank > attacker.rank)
+          move_direction = attacker.check_up_right
+        else
+          move_direction = attacker.check_up_left
+        end
+      else
+        # King is below attacker and to the right
+        if(@king.rank > attacker.rank)
+          move_direction = attacker.check_down_right
+        else
+          move_direction = attacker.check_down_left
+        end
+      end
+    end
+    move_direction
   end
 
   def index_to_notation(file, rank)
