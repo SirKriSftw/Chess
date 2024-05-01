@@ -36,14 +36,11 @@ class Player
   end
 
   def can_capture?
-    attackers = @king.attackers
-    # If there's 'double check', 2 attackers, only way to defend is by moving
-    if attackers.length == 1
-      @pieces.each do |piece|
-        if piece.type != "king"
-          if piece.get_moves.include?([attackers[0].file, attackers[0].rank]) 
-            return true 
-          end
+    attacker = @king.attackers[0]
+    @pieces.each do |piece|
+      if piece.type != "king"
+        if piece.get_moves.include?([attacker.file, attacker.rank]) 
+          return true 
         end
       end
     end
@@ -51,18 +48,15 @@ class Player
   end
 
   def can_block?
-    attackers = @king.attackers
-    # If there's 'double check', 2 attackers, only way to defend is by moving
-    if attackers.length == 1
-      # Cannot block a knight or pawn attack
-      if attackers[0].type == "knight" || attackers[0].type == "pawn" then return false end
-      # For all other pieces check for a block
-      to_block = find_attack_direction(attackers[0])
-      @pieces.each do |piece|
-        possible_moves = piece.get_moves
-        to_block.each do |pos|
-          if possible_moves.include?(pos) && piece.type != "king" then return true end
-        end
+    attacker = @king.attackers[0]
+    # Cannot block a knight or pawn attack
+    if attacker.type == "knight" || attacker.type == "pawn" then return false end
+    # For all other pieces check for a block
+    to_block = find_attack_direction(attacker)
+    @pieces.each do |piece|
+      possible_moves = piece.get_moves
+      to_block.each do |pos|
+        if possible_moves.include?(pos) && piece.type != "king" then return true end
       end
     end
     return false
