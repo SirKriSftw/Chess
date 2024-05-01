@@ -29,6 +29,7 @@ class Player
 
   def checkmate?
     if @king.can_move? then return false end
+    if @king.attackers.length > 1 then return true end
     if can_capture? then return false end
     if can_block?  then return false end
     return true
@@ -36,6 +37,7 @@ class Player
 
   def can_capture?
     attackers = @king.attackers
+    # If there's 'double check', 2 attackers, only way to defend is by moving
     if attackers.length == 1
       @pieces.each do |piece|
         if piece.type != "king"
@@ -50,6 +52,7 @@ class Player
 
   def can_block?
     attackers = @king.attackers
+    # If there's 'double check', 2 attackers, only way to defend is by moving
     if attackers.length == 1
       # Cannot block a knight or pawn attack
       if attackers[0].type == "knight" || attackers[0].type == "pawn" then return false end
