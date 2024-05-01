@@ -201,8 +201,8 @@ class Pawn < Piece
   def get_moves
     moves = []
     if @color == "white" then direction = 1 else direction = -1 end
-    if @color == "white" && @file == 1 && @@board[2][@rank] == nil then moves.push([@file + 2, @rank]) end
-    if @color == "black" && @file == 6 && @@board[5][@rank] == nil then moves.push([@file - 2, @rank]) end
+    if @color == "white" && @file == 1 && @@board[2][@rank] == nil && @@board[3][@rank] == nil then moves.push([@file + 2, @rank]) end
+    if @color == "black" && @file == 6 && @@board[5][@rank] == nil && @@board[4][@rank] == nil then moves.push([@file - 2, @rank]) end
       
     if(@file + direction < @@board.length && @file + direction >= 0)
       if @@board[@file + direction][@rank] == nil then moves.push([@file + direction, @rank]) end

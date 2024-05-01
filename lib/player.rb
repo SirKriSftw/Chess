@@ -28,10 +28,19 @@ class Player
   end
 
   def checkmate?
-    if @king.can_move? then return false end
+    if @king.can_move?  
+      p "King can move"
+      return false 
+    end
     if @king.attackers.length > 1 then return true end
-    if can_capture? then return false end
-    if can_block?  then return false end
+    if can_capture?  
+      p "Capture"
+      return false 
+    end
+    if can_block? 
+      p "Block"
+      return false 
+    end
     return true
   end
 
@@ -40,6 +49,7 @@ class Player
     @pieces.each do |piece|
       if piece.type != "king"
         if piece.get_moves.include?([attacker.file, attacker.rank]) 
+          p piece
           return true 
         end
       end
@@ -127,7 +137,6 @@ class Player
   end
 
   def move_piece(piece, new_pos)
-    puts "Moving #{piece} to #{new_pos}"
     start_square = [piece.file, piece.rank]
     end_piece = piece.move(new_pos)
     if in_check?
