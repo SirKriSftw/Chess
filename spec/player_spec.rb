@@ -34,6 +34,20 @@ describe Player do
             expect(board.players[curr_player].checkmate?).to eql false            
         end
 
-        
+        it "Mate stopped piece capturing" do
+            board = Board.new()
+            moves = ["e2 e4", "h7 h5", "d2 d3", "f7 f6", "a2 a3", "g7 g5", "d1 h5"]
+            curr_player = 0
+            index = 0
+            moves.length.times do
+                board.players[curr_player].take_turn(moves[index])
+                index += 1
+                curr_player = 1 - curr_player
+            end
+
+            puts ""
+            board.print_board
+            expect(board.players[curr_player].checkmate?).to eql false            
+        end        
     end
 end
