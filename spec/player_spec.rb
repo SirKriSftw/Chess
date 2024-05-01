@@ -48,6 +48,22 @@ describe Player do
             puts ""
             board.print_board
             expect(board.players[curr_player].checkmate?).to eql false            
-        end        
+        end
+        
+        it "Mate stopped by blocking piece" do
+            board = Board.new()
+            moves = ["e2 e4", "f7 f65", "d1 h5"]
+            curr_player = 0
+            index = 0
+            moves.length.times do
+                board.players[curr_player].take_turn(moves[index])
+                index += 1
+                curr_player = 1 - curr_player
+            end
+
+            puts ""
+            board.print_board
+            expect(board.players[curr_player].checkmate?).to eql false            
+        end   
     end
 end
