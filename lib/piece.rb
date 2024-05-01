@@ -41,13 +41,13 @@ class Piece
     @@board[file][rank] = nil
   end
 
-  def attackers
+  def attackers(my_file = @file, my_rank = @rank)
     attackers_list = []
     @@board.each do |file|
       file.each do |piece|
         if(piece != nil)
           if(@color != piece.color)
-            if piece.get_moves.include?([@file, @rank]) then attackers_list.push(piece) end
+            if piece.get_moves.include?([my_file, my_rank]) then attackers_list.push(piece) end
           end
         end
       end
@@ -276,5 +276,13 @@ class King < Piece
 
   def get_moves
     check_up + check_down + check_right + check_left + check_up_right + check_up_left + check_down_right + check_down_left
+  end
+
+  def can_move?
+    moves = get_moves
+    moves.each do |move|
+      if attackers(move[0], move[1]).length == 0 then return true end
+    end
+    return false
   end
 end

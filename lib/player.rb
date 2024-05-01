@@ -28,7 +28,7 @@ class Player
   end
 
   def checkmate?
-    
+    if @king.can_move? then return false end
   end
 
   def index_to_notation(file, rank)
