@@ -58,7 +58,7 @@ class Player
       @pieces.each do |piece|
         possible_moves = piece.get_moves
         to_block.each do |pos|
-          if possible_moves.include?(pos) then return true end
+          if possible_moves.include?(pos) && piece.type != "king" then return true end
         end
       end
     end
