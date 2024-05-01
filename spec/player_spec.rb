@@ -52,7 +52,7 @@ describe Player do
         
         it "Mate stopped by blocking piece" do
             board = Board.new()
-            moves = ["e2 e4", "f7 f65", "d1 h5"]
+            moves = ["e2 e4", "f7 f6", "d1 h5"]
             curr_player = 0
             index = 0
             moves.length.times do
