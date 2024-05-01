@@ -69,21 +69,20 @@ class Player
   end
 
   def find_attack_direction(attacker)
-    move_direction = []
     if attacker.type == "rook" || attacker.type == "queen"
       if(@king.file == attacker.file)
         # King is on same row but to the right of attacker
         if(@king.rank > attacker.rank)
-          move_direction = attacker.check_right
+          return attacker.check_right
         else
-          move_direction = attacker.check_left
+          return attacker.check_left
         end
       elsif(@king.rank == attacker.rank)
         # King is on same column but king is above attacker
         if(@king.file > attacker.file)
-          move_direction = attacker.check_up
+          return attacker.check_up
         else
-          move_direction = attacker.check_down
+          return attacker.check_down
         end
       end
     end
@@ -92,20 +91,19 @@ class Player
       if(@king.file < attacker.file)
         # King is above and to the right of attacker
         if(@king.rank > attacker.rank)
-          move_direction = attacker.check_up_right
+          return attacker.check_up_right
         else
-          move_direction = attacker.check_up_left
+          return attacker.check_up_left
         end
       else
         # King is below attacker and to the right
         if(@king.rank > attacker.rank)
-          move_direction = attacker.check_down_right
+          return attacker.check_down_right
         else
-          move_direction = attacker.check_down_left
+          return attacker.check_down_left
         end
       end
     end
-    move_direction
   end
 
   def index_to_notation(file, rank)
