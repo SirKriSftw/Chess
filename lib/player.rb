@@ -29,6 +29,11 @@ class Player
 
   def checkmate?
     if @king.can_move? then return false end
+    unless can_capture? then return false end
+    return true
+  end
+
+  def can_capture?
     attackers = @king.attackers
     if attackers.length == 1
       @pieces.each do |piece|
@@ -39,7 +44,6 @@ class Player
         end
       end
     end
-    return true
   end
 
   def index_to_notation(file, rank)
