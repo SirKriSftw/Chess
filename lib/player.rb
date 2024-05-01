@@ -30,10 +30,10 @@ class Player
   def checkmate?
     if @king.can_move? then return false end
     attackers = @king.attackers
-    attackers.each do |attacker|
+    if attackers.length == 1
       @pieces.each do |piece|
         if piece.type != "king"
-          if piece.get_moves.include?([attacker.file, attacker.rank]) 
+          if piece.get_moves.include?([attackers[0].file, attackers[0].rank]) 
             return false 
           end
         end
