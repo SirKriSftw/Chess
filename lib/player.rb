@@ -32,7 +32,11 @@ class Player
     attackers = @king.attackers
     attackers.each do |attacker|
       @pieces.each do |piece|
-        if piece.get_moves.include?([attacker.file, attacker.rank]) then return false end
+        if piece.type != "king"
+          if piece.get_moves.include?([attacker.file, attacker.rank]) 
+            return false 
+          end
+        end
       end
     end
     return true
