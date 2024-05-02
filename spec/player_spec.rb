@@ -147,5 +147,37 @@ describe Player do
             board.print_board
             expect(board.squares[7][4].type == "king" && board.squares[7][7].type == "rook").to eql true
         end
+
+        it "White castle FAILS because king has moved" do
+            board = Board.new()
+            moves = ["e2 e4", "e7 e5", "f1 c4", "a7 a6", "g1 f3", "b7 b6", "e1 e2", "c7 c6", "e2 e1", "d7 d6"]
+            curr_player = 0
+            index = 0
+            moves.length.times do
+                board.players[curr_player].take_turn(moves[index])
+                index += 1
+                curr_player = 1 - curr_player
+            end
+
+            puts ""
+            board.print_board
+            expect(board.squares[0][4].get_moves.include?([0, 6])).to eql false
+        end
+
+        it "White castle FAILS because rook has moved" do
+            board = Board.new()
+            moves = ["e2 e4", "e7 e5", "f1 c4", "a7 a6", "g1 f3", "b7 b6", "h1 g1", "c7 c6", "g1 h1", "d7 d6"]
+            curr_player = 0
+            index = 0
+            moves.length.times do
+                board.players[curr_player].take_turn(moves[index])
+                index += 1
+                curr_player = 1 - curr_player
+            end
+
+            puts ""
+            board.print_board
+            expect(board.squares[0][4].get_moves.include?([0, 6])).to eql false
+        end
     end
 end
