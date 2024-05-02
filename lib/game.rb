@@ -16,6 +16,7 @@ class Game
                 if(@curr_player.checkmate?) 
                     winner = @board.players[1 - @curr_player_index]
                     puts "Checkmate. Player #{winner.color} has won!"
+                    break
                 else
                 puts "\e[31mYour king is under attack\e[0m" 
                 end

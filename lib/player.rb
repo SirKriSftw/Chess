@@ -149,6 +149,7 @@ class Player
       end
       return false
     end
+    if piece.type == "rook" || piece.type == "king" then piece.has_moved = true end
     return true
   end
 

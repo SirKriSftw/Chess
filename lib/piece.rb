@@ -1,5 +1,5 @@
 class Piece
-  attr_accessor :icon, :color, :board, :rank, :file, :type
+  attr_accessor :icon, :color, :board, :rank, :file, :type, :has_moved
 
   def initialize(color, icon, pos = [0,0], board, type)
     color = color.downcase
@@ -220,6 +220,7 @@ end
 class Rook < Piece
   def initialize(color, pos, board)
     super(color, "r", pos, board, "rook")
+    @has_moved = false
   end
 
   def get_moves
@@ -285,6 +286,7 @@ class King < Piece
   def initialize(color, pos, board)
     super(color, "K", pos, board, "king")
     color == "white" ? @icon = "\e[37m\e[1m\e[4m#{icon}\e[24m\e[22m" : @icon = "\e[30m\e[4m#{icon}\e[24m\e[22m"
+    @has_moved = false
   end
 
   def get_moves
