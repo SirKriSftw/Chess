@@ -77,8 +77,8 @@ class Piece
     square = @@board[file][rank]
     if(@type == "king" && square == nil)
       moves.push([file, rank])
-    elsif(square.color != @color)
-      moves.push([file, rank])
+    elsif(square != nil)
+      if(square.color != @color) then moves.push([file, rank]) end      
     end
     moves
   end
@@ -91,7 +91,7 @@ class Piece
       current += 1
     end
 
-    if(@file - current > 0)
+    if(@file - current >= 0)
       moves = moves + check_square(@file - current, @rank)
     end
     moves
@@ -133,7 +133,7 @@ class Piece
       current += 1
     end
 
-    if(@rank - current > 0)
+    if(@rank - current >= 0)
       moves = moves + check_square(@file, @rank - current)
     end
     moves
@@ -146,7 +146,7 @@ class Piece
       if(@@board[@file - current][@rank + current] == nil) then moves.push([@file - current, @rank + current]) else break end      
       current += 1
     end
-    if(@file - current > 0 && @rank + current < @@board[0].length)
+    if(@file - current >= 0 && @rank + current < @@board[0].length)
       moves = moves + check_square(@file - current, @rank + current)
     end
     moves

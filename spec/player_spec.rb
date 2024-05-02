@@ -115,5 +115,21 @@ describe Player do
             board.print_board
             expect(board.squares[0][4].type == "king" && board.squares[0][7].type == "rook").to eql true
         end
+
+        it "Black castle FAILS because pass over attacked space" do
+            board = Board.new()
+            moves = ["e2 e4", "e7 e5", "d1 f3", "f8 a3", "f3 a3", "g8 h6", "f2 f3", "e8 g8"]
+            curr_player = 0
+            index = 0
+            moves.length.times do
+                board.players[curr_player].take_turn(moves[index])
+                index += 1
+                curr_player = 1 - curr_player
+            end
+
+            puts ""
+            board.print_board
+            expect(board.squares[7][4].type == "king" && board.squares[7][7].type == "rook").to eql true
+        end
     end
 end
