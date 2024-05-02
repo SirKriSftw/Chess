@@ -1,7 +1,7 @@
 require "spec_helper"
 require_relative "../lib/board"
 
-describe Player do
+describe Board do
     describe "checkmate?" do
         it "Scholar's mate" do
             board = Board.new()
