@@ -11,7 +11,10 @@ class Game
         valid_turn = true
         loop do            
             @curr_player = @board.players[@curr_player_index]
-            if valid_turn then @board.print_board end
+            if valid_turn
+                @curr_player.clear_en_passant  
+                @board.print_board 
+            end
             if @curr_player.in_check?
                 if(@curr_player.checkmate?) 
                     winner = @board.players[1 - @curr_player_index]

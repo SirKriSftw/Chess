@@ -180,4 +180,22 @@ describe Board do
             expect(board.squares[0][4].get_moves.include?([0, 6])).to eql false
         end
     end
+
+    describe "en_passant" do
+        it "White pawn en passants a black pawn" do
+            board = Board.new()
+                moves = ["e2 e4", "a7 a6", "e4 e5", "d7 d5", "e5 d6"]
+                curr_player = 0
+                index = 0
+                moves.length.times do
+                    board.players[curr_player].take_turn(moves[index])
+                    index += 1
+                    curr_player = 1 - curr_player
+                end
+
+                puts ""
+                board.print_board
+                expect(board.squares[4][3] == nil && board.squares[5][3].type == "pawn").to eql true
+        end
+    end
 end

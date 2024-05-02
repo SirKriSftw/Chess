@@ -201,4 +201,9 @@ class Player
     end
   end
     
+  def clear_en_passant
+    @pieces.each do |piece|
+      if piece.type == "pawn" then piece.en_passant = false end
+    end
+  end
 end

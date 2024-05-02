@@ -194,26 +194,60 @@ class Piece
 end
 
 class Pawn < Piece
+  attr_accessor :en_passant
+
   def initialize(color, pos, board)
-    super(color, "p", pos, board, "pawn")    
+    super(color, "p", pos, board, "pawn") 
+    @en_passant = false   
   end
 
   def get_moves
     moves = []
     if @color == "white" then direction = 1 else direction = -1 end
-    if @color == "white" && @file == 1 && @@board[2][@rank] == nil && @@board[3][@rank] == nil then moves.push([@file + 2, @rank]) end
-    if @color == "black" && @file == 6 && @@board[5][@rank] == nil && @@board[4][@rank] == nil then moves.push([@file - 2, @rank]) end
+    if @color == "white" && @file == 1 && @@board[2][@rank] == nil && @@board[3][@rank] == nil 
+      @en_passant = true 
+      moves.push([@file + 2, @rank]) 
+    elsif @color == "black" && @file == 6 && @@board[5][@rank] == nil && @@board[4][@rank] == nil
+      @en_passant = true  
+      moves.push([@file - 2, @rank]) 
+    end
       
     if(@file + direction < @@board.length && @file + direction >= 0)
       if @@board[@file + direction][@rank] == nil then moves.push([@file + direction, @rank]) end
-      if(@rank + 1 < @@board[0].length && @@board[@file + direction][@rank + 1] != nil)
-        if @@board[@file + direction][@rank + 1].color != @color then moves.push([@file + direction, @rank + 1]) end
+      if(@rank + 1 < @@board[0].length)
+        if(@@board[@file + direction][@rank + 1] != nil)
+          if @@board[@file + direction][@rank + 1].color != @color then moves.push([@file + direction, @rank + 1]) end
+        elsif(@@board[@file][@rank + 1] != nil)
+          if @@board[@file][@rank + 1].type == "pawn"
+            if @@board[@file][@rank + 1].en_passant then moves.push([@file + direction, @rank + 1]) end
+          end
+        end
       end
-      if(@rank - 1 >= 0 && @@board[@file + direction][@rank - 1] != nil)
-        if @@board[@file + direction][@rank - 1].color != @color then moves.push([@file + direction, @rank - 1]) end
+      if(@rank - 1 >= 0)
+        if(@@board[@file + direction][@rank - 1] != nil)
+          if @@board[@file + direction][@rank - 1].color != @color then moves.push([@file + direction, @rank - 1]) end
+        elsif(@@board[@file][@rank - 1] != nil)
+          if @@board[@file][@rank - 1].type == "pawn"
+            if @@board[@file][@rank - 1].en_passant then moves.push([@file + direction, @rank - 1]) end
+          end
+        end
       end
     end
     moves
+  end
+
+  def move(pos)
+    # If moving diagonal check for en passant rule
+    if @rank != pos[1]
+      # Pos if moving right, Neg if moving left
+      hor_direction = pos[1] - @rank
+      if @@board[@file][@rank + hor_direction] != nil && @@board[pos[0]][pos[1]] == nil  
+        temp = @@board[@file][@rank + hor_direction] 
+        @@board[@file][@rank + hor_direction] = nil
+      end
+    end
+    if temp != nil then temp = super(pos) else super(pos) end 
+    temp
   end
 end
 
