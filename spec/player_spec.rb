@@ -99,5 +99,21 @@ describe Player do
             board.print_board
             expect(board.squares[7][2].type == "king" && board.squares[7][3].type == "rook").to eql true
         end
+
+        it "White castle FAILS because in check" do
+            board = Board.new()
+            moves = ["e2 e4", "e7 e5", "f1 c4", "d8 g5", "f2 f3", "a7 a6", "g1 h3", "g5 h4", "e1 g1"]
+            curr_player = 0
+            index = 0
+            moves.length.times do
+                board.players[curr_player].take_turn(moves[index])
+                index += 1
+                curr_player = 1 - curr_player
+            end
+
+            puts ""
+            board.print_board
+            expect(board.squares[0][4].type == "king" && board.squares[0][7].type == "rook").to eql true
+        end
     end
 end

@@ -322,28 +322,34 @@ class King < Piece
 
   def move(pos)
     # If attempting to castle
-    if (@rank - pos[1]).abs == 2 && attackers.length == 0
-      direction = @rank - pos[1]
-      # King side castle
-      if direction < 0
-        counter = 1
-        2.times do 
-          if attackers(@file, @rank + counter).length != 0 then return -1 end  
-          counter += 1
+    if (@rank - pos[1]).abs == 2
+      if attackers.length == 0 
+        direction = @rank - pos[1]
+        # King side castle
+        if direction < 0
+          counter = 1
+          2.times do 
+            if attackers(@file, @rank + counter).length != 0 then return -1 end  
+            counter += 1
+          end
+          king_rook = @@board[@file][@rank + 3]
+          king_rook.move([@file, @rank + 1])
+        # Queen side castle
+        else
+          counter = 1
+          3.times do 
+            if attackers(@file, @rank - counter).length != 0 then return -1 end  
+            counter += 1
+          end
+          queen_rook = @@board[@file][@rank - 4]
+          queen_rook.move([@file, @rank - 1])
         end
-        king_rook = @@board[@file][@rank + 3]
-        king_rook.move([@file, @rank + 1])
-      # Queen side castle
+        super(pos)
       else
-        counter = 1
-        3.times do 
-          if attackers(@file, @rank - counter).length != 0 then return -1 end  
-          counter += 1
-        end
-        queen_rook = @@board[@file][@rank - 4]
-        queen_rook.move([@file, @rank - 1])
+        return - 1
       end
+    else
+      super(pos)
     end
-    super(pos)
   end
 end
