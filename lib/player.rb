@@ -139,6 +139,10 @@ class Player
   def move_piece(piece, new_pos)
     start_square = [piece.file, piece.rank]
     end_piece = piece.move(new_pos)
+    if end_piece == -1
+      puts "\e[31mIllegal move, King cannot castle at this moment\e[0m"
+      return false
+    end
     if in_check?
       puts "\e[31mIllegal move, puts King in check\e[0m"
       piece.set_pos(start_square)
@@ -148,8 +152,9 @@ class Player
         Piece.clear_pos(new_pos)
       end
       return false
+    else
+      if piece.type == "rook" || piece.type == "king" then piece.has_moved = true end
     end
-    if piece.type == "rook" || piece.type == "king" then piece.has_moved = true end
     return true
   end
 

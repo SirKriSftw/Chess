@@ -291,13 +291,14 @@ class King < Piece
 
   def get_moves
     moves = check_up + check_down + check_right + check_left + check_up_right + check_up_left + check_down_right + check_down_left
-    # Check if castling is a possibility (3 spaces left = nil, 2 spaces right = nil AND follow space is a rook that has not moved)
+    # Check if castling is a possibility (3 spaces left = nil, 2 spaces right = nil AND following space is a rook that has not moved)
     moves = moves + castling
     moves
   end
 
   def castling
     moves = []
+    # Have not moved AND not in check
     if @has_moved == false
       king_rook = @@board[@file][@rank + 3]
       queen_rook = @@board[@file][@rank - 4]
@@ -317,5 +318,33 @@ class King < Piece
       if attackers(new_pos[0], new_pos[1]).length == 0 then return true end
     end
     return false
+  end
+
+  def move(pos)
+    p pos
+    # If attempting to castle
+    if (@rank - pos[1]).abs == 2 && attackers.length == 0
+      direction = @rank - pos[1]
+      # King side castle
+      if direction < 0
+        counter = 1
+        2.times do 
+          if attackers(@file, @rank + counter).length != 0 then return -1 end  
+          counter += 1
+        end
+        king_rook = @@board[@file][@rank + 3]
+        king_rook.move([@file, @rank + 1])
+      # Queen side castle
+      else
+        counter = 1
+        3.times do 
+          if attackers(@file, @rank - counter).length != 0 then return -1 end  
+          counter += 1
+        end
+        queen_rook = @@board[@file][@rank - 4]
+        queen_rook.move([@file, @rank - 1])
+      end
+    end
+    super(pos)
   end
 end
