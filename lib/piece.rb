@@ -321,7 +321,6 @@ class King < Piece
   end
 
   def move(pos)
-    p pos
     # If attempting to castle
     if (@rank - pos[1]).abs == 2 && attackers.length == 0
       direction = @rank - pos[1]

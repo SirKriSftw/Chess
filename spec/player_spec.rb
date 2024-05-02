@@ -66,4 +66,38 @@ describe Player do
             expect(board.players[curr_player].checkmate?).to eql false            
         end   
     end
+
+    describe "castling" do
+        it "White castle king side" do
+            board = Board.new()
+            moves = ["e2 e4", "e7 e5", "f1 c4", "d7 d6", "g1 f3", "c8 g4", "e1 g1"]
+            curr_player = 0
+            index = 0
+            moves.length.times do
+                board.players[curr_player].take_turn(moves[index])
+                index += 1
+                curr_player = 1 - curr_player
+            end
+
+            puts ""
+            board.print_board
+            expect(board.squares[0][6].type == "king" && board.squares[0][5].type == "rook").to eql true
+        end
+
+        it "Black castle queen side" do
+            board = Board.new()
+            moves = ["a2 a3", "e7 e5", "b2 b3", "d7 d6", "c2 c3", "d8 e7", "d2 d3", "c8 d7", "e2 e3", "b8 c6", "f2 f3", "e8 c8"]
+            curr_player = 0
+            index = 0
+            moves.length.times do
+                board.players[curr_player].take_turn(moves[index])
+                index += 1
+                curr_player = 1 - curr_player
+            end
+
+            puts ""
+            board.print_board
+            expect(board.squares[7][2].type == "king" && board.squares[7][3].type == "rook").to eql true
+        end
+    end
 end
